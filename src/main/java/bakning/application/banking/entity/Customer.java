@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,17 +14,17 @@ import java.util.Objects;
 
 @Entity
 @Table(name ="customer")
-public class Customer extends  AuditEntity {
+public class Customer extends AuditEntity {
 
     @Id
-    @GenericGenerator(name ="seq_id_gen" , strategy= "")
+    @GenericGenerator(name ="seq_id_gen" , strategy= "bakning.application.banking.entity.SequenceCustomerIdGenerator")
     @GeneratedValue(generator = "seq_id_gen")
     @Column(name="customerId",unique= true, nullable = false)
     private String Id;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
-    private Account account;
+    private List<Account> account;
 
     @Column(name="name")
     private String customerName;
@@ -33,11 +34,11 @@ public class Customer extends  AuditEntity {
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="address_id")
-    private Address address;
+    private List<Address> address;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="document_id")
-    private  BankDocument documents;
+    private  List<BankDocument> documents;
 
     public String getId() {
         return Id;
@@ -47,11 +48,11 @@ public class Customer extends  AuditEntity {
         Id = id;
     }
 
-    public Account getAccount() {
+    public List<Account> getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(List<Account> account) {
         this.account = account;
     }
 
@@ -71,19 +72,19 @@ public class Customer extends  AuditEntity {
         this.mobileNumber = mobileNumber;
     }
 
-    public Address getAddress() {
+    public List<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(List<Address> address) {
         this.address = address;
     }
 
-    public BankDocument getDocuments() {
+    public List<BankDocument> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(BankDocument documents) {
+    public void setDocuments(List<BankDocument> documents) {
         this.documents = documents;
     }
 
